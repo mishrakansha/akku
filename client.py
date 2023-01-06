@@ -7,24 +7,24 @@ from cmd import Cmd
 import threading
 import time
 import argparse
+from keyboard import press
 
 user = None
 HOST = '127.0.0.1'
 PORT = 1234
+username = ''
 parser = argparse.ArgumentParser(prog= "gugu",
                                  description = "client script of gugu to connect",
                                  epilog = "@luckythandel")
 parser.add_argument('--port', '-p', type=int)
-parser.add_argument('--username', '-u', type=ascii)
+parser.add_argument('--username', '-u', type=str, required=True)
 
 args = parser.parse_args()
-if(args.username and args.port):
-    username = str(args.username)
-    PORT = args.port
-    user = User(HOST, PORT, username)
-else:
-    user = User(HOST, PORT, '')
-    username = user.getID()
+if(args.username):
+    username = args.username
+if(args.port):
+  PORT = args.port
+user = User(HOST, PORT, username)
 
 console.log('Welcome!')
 console.log('Entering with the name: '+username)
@@ -66,12 +66,9 @@ class Client(Cmd):
                        exit()
                    if(tempRecv == username.encode()+b', is Banned!'):
                        clientfd.close()
-                       print(tempRecv.decode())
                    t = tempRecv.decode().find(',')
                    user = tempRecv.decode()[:t]; msg = tempRecv.decode()[t+1:]
                    print("\r" + user + ': '+ msg)
-                   print("[+]ID: ", threading.get_ident())
-                   return 
                except Exception as e:
                        return
 
