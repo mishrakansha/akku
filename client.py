@@ -28,6 +28,7 @@ user = User(HOST, PORT, username)
 
 console.log('Welcome!')
 console.log('Entering with the name: '+username)
+console.log(' Hello '+username)
 
 def connection_create(HOST, PORT):
     try:
